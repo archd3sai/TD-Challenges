@@ -3,6 +3,7 @@ import pandas as pd
 
 from similar_users import get_similarity_by_category
 from discord_sim import get_similar
+from search_engine import find_best_result
 
 applicants = pd.read_csv('data/applicants.csv')
 
@@ -107,6 +108,12 @@ _relevant_industries = sorted([
 # Generate input widgets
 #-------------------------------------------------------------------------------
 
+st.sidebar.header('Quick Search Tool')
+
+query = st.sidebar.text_input('Your query string')
+
+search_btn = st.sidebar.button('Search workshops')
+
 st.sidebar.header('Your Personal Info')
 
 backgrounds = {
@@ -176,10 +183,8 @@ skills_pref = {
     )
 }
 
-search_btn = st.sidebar.button('Search users')
 recommend_btn = st.sidebar.button('Get recommendations')
 discord_btn = st.sidebar.button('Match with Discord users')
-visual_btn = st.sidebar.button('Visualize where you fit in')
 
 
 #-------------------------------------------------------------------------------
@@ -204,12 +209,36 @@ user_prefs = {
 #-------------------------------------------------------------------------------
 
 if search_btn:
-    st.title('Search users')
+    st.title('Search workshops')
+
+    results = find_best_result(query)
+    print(results)
+
+    st.table(results)
+
+    st.info('''This code takes in a user query string, then calculates two similarity indexes
+between the query and the workshops:
+
+* **The name similarity index** measures the similarity between the user query string and the workshop title
+* **The tag similarity index** picks apart the user query string and checks its similarity to the workshop tags
+
+The two indexes and then combined into an **aggregate similarity index** based predefined weights.
+
+Three best matching workshops:
+''')
+
+
 
 if recommend_btn:
     st.title('Get recommendations')
 
-    st.write('''You were matched with other participants based on three categories:
+    st.subheader('Teammate recommendations')
+
+    st.write('Top Datathon participants who matches your info & preferences:')
+
+    st.write(get_similarity_by_category(user_inputs, user_prefs))
+
+    st.info('''You were matched with other participants based on three categories:
 
 * personal background
 * level of experience
@@ -223,7 +252,8 @@ to you, and how important said category was to you.
 Each participant was given a total score (0 - 1) based on how well they fit your preferences. Your top recommended
 teammates are:
 ''')
-    st.write(get_similarity_by_category(user_inputs, user_prefs))
+
+    st.subheader('Workshop recommendations')
 
 if discord_btn:
     st.title('Match with Discord users')
@@ -236,8 +266,7 @@ if discord_btn:
 
     close_matches = results[results.similarity_score > 0.9]
 
-    st.write('''Your self-description has been compared with all messages posted in the official TAMU Datathon discord
-`#introductions` channel. There are **{}** people who have a `similarity_score > 0.9` with you!
+    st.write('''There are **{}** people who have a `similarity_score > 0.9` with you!
 
 The person who matches the best with you is **{}** (`@{}`). Here is their introduction:
 
@@ -252,5 +281,5 @@ Your other close matches are:'''.format(
 
     st.table(close_matches.iloc[1:])
 
-if visual_btn:
-    st.title('Visualize where you fit')
+    st.info('''Your self-description was compared with all messages posted in the official
+    TAMU Datathon Discord `#introductions` channel using a netural language processing (NLP) model.''')
