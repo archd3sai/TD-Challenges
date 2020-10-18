@@ -149,7 +149,7 @@ st.sidebar.subheader('Personal background')
 backgrounds_pref = {
     'similarity': st.sidebar.radio(
         label='I\'m looking for people...',
-        options=['similar with me', 'different from me'],
+        options=['similar to me', 'different from me'],
         key="backgrounds.similarity"
     ),
     'importance': st.sidebar.select_slider(
@@ -164,7 +164,7 @@ st.sidebar.subheader('Level of experience')
 experience_pref = {
     'similarity': st.sidebar.radio(
         label='I\'m looking for people...',
-        options=['similar with me', 'different from me'],
+        options=['similar to me', 'different from me'],
         key="experience.similarity"
     ),
     'importance': st.sidebar.select_slider(
@@ -179,7 +179,7 @@ st.sidebar.subheader('Skills & industries')
 skills_pref = {
     'similarity': st.sidebar.radio(
         label='I\'m looking for people...',
-        options=['similar with me', 'different from me'],
+        options=['similar to me', 'different from me'],
         key="skills.similarity"
     ),
     'importance': st.sidebar.select_slider(
@@ -269,10 +269,10 @@ if search_btn:
     st.info('''This code takes in a user query string, then calculates two similarity indexes
 between the query and the workshops:
 
-* **The name similarity index** measures the similarity between the user query string and the workshop title
+* **The name similarity index** measures the similarity between your query string and the workshop title
 * **The tag similarity index** picks apart the user query string and checks its similarity to the workshop tags
 
-The two indexes and then combined into an **aggregate similarity index** based predefined weights.
+The two indexes are then combined into an **aggregate similarity index** based predefined weights.
 ''')
 
 
