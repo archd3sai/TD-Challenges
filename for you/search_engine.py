@@ -10,6 +10,19 @@ import distance
 
 nlp = spacy.load('en')
 
+#EXPLANATION: 
+#This code takes in a user query string with the find_best_result function.
+#It then calculates two similarity indexes between the query and the workshops
+#The name similarity index measures the similarity between the user query string and the workshop title
+#The tag similarity index picks apart the user query string and checks its similarity to the workshop tags
+#The arrange_results function takes the two indexes and combines them into an aggregate similarity index
+#This aggregate similarity index weights tag_similarity less than name_similarity... This can be tweaked and played around with if needed
+#The arrange_results function then looks at the three workshops with the highest similarity index and that is the final output
+
+#This script must be modified so that it can be integrated with the rest of the app
+
+#I did not make a similarity index for the description column... that is worth exploring if we have the time
+
 
 workshop_data = pd.read_csv("workshops.csv")
 query_data = pd.read_csv("queries.csv")
@@ -19,13 +32,6 @@ similarity = []
 
 #adding column of processed workshop names
 workshop_data["processed_names"] = workshop_data["workshop"].str.lower()
-
-################################################################################
-#query input and processing
-
-#query = "using machine learning"
-#query = query.lower()
-#query_words = query.split(" ")
 
 
 #################################################################################
@@ -79,7 +85,7 @@ def tag_similarity(query):
         return tag_similarity
 
 #############################################################################
-#each word with each tag
+# description similarity index
 
 
 
