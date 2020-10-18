@@ -4,6 +4,7 @@ import pandas as pd
 from similar_users import get_similarity_by_category
 from discord_sim import get_similar
 from search_engine import find_best_result
+from workshop_recommend import workshop_recommendations
 
 applicants = pd.read_csv('data/applicants.csv')
 
@@ -204,16 +205,15 @@ user_prefs = {
     'skills': skills_pref
 }
 
+
 #-------------------------------------------------------------------------------
-# Button actions
+# Search button
 #-------------------------------------------------------------------------------
 
 if search_btn:
     st.title('Search workshops')
 
     results = find_best_result(query)
-    print(results)
-
     st.table(results)
 
     st.info('''This code takes in a user query string, then calculates two similarity indexes
@@ -228,13 +228,14 @@ Three best matching workshops:
 ''')
 
 
+#-------------------------------------------------------------------------------
+# Teammate & Workshop recommendations
+#-------------------------------------------------------------------------------
 
 if recommend_btn:
     st.title('Get recommendations')
 
-    st.subheader('Teammate recommendations')
-
-    st.write('Top Datathon participants who matches your info & preferences:')
+    st.subheader('Top Datathon participants who match your info & preferences:')
 
     st.write(get_similarity_by_category(user_inputs, user_prefs))
 
@@ -253,7 +254,16 @@ Each participant was given a total score (0 - 1) based on how well they fit your
 teammates are:
 ''')
 
-    st.subheader('Workshop recommendations')
+    st.subheader('Top workshops that match your info')
+
+    st.write(workshop_recommendations(user_inputs))
+
+    st.info('''Loren ipsum''')
+
+
+#-------------------------------------------------------------------------------
+# Discord user matching
+#-------------------------------------------------------------------------------
 
 if discord_btn:
     st.title('Match with Discord users')
