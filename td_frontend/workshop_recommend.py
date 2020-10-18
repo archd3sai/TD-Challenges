@@ -89,6 +89,12 @@ def get_workshops_recommendation(diff_0, diff_1, diff_2, DL, DS, Industry, ML, r
 
 def workshop_recommendations(data):       
     
+    data = data[['age_bin', 'classification', 'first_generation',
+       'datascience_experience', 'num_hackathons_attended', 'undergrad',
+       'Masters', 'PhD', 'Excel', 'Python', 'Tableau', 'Pandas', 'NumPy',
+       'MATLAB', 'Pytorch', 'Scikit-learn', 'full_stack', 'TensorFlow', 'R',
+       'SQL', 'dev_ops', 'Keras', 'cloud']]
+    
     diff_0, diff_1, diff_2 = clf1_0.predict(data), clf1_1.predict(data), clf1_2.predict(data)
     
     DL, DS, Industry, ML = clf2.predict_proba(data)[0,0], clf2.predict_proba(data)[0,1], \
