@@ -5,6 +5,7 @@ from similar_users import get_similarity_by_category
 from discord_sim import get_similar
 from search_engine import find_best_result
 from workshop_recommend import workshop_recommendations
+from visualizations import plot_ages, plot_education, plot_skills, plot_majors
 
 applicants = pd.read_csv('data/applicants.csv')
 
@@ -207,11 +208,37 @@ user_prefs = {
 
 
 #-------------------------------------------------------------------------------
+# TAMU Datathon by the numbers
+#-------------------------------------------------------------------------------
+
+visual_widgets = [
+    st.title('TAMU Datathon by the Numbers'),
+    st.header('Most applicants are between the ages of 18 and 20'),
+    st.pyplot(plot_ages()),
+    st.header('Undergrads made up the overwhelming majority of applicants'),
+    st.pyplot(plot_education()),
+    st.header('Python is by far the most widely known skill'),
+    st.pyplot(plot_skills()),
+    st.header('The number of math and statistics majors towered over the rest of the majors'),
+    st.pyplot(plot_majors()),
+]
+
+
+def _remove_visualization():
+    for widget in visual_widgets:
+        widget.empty()
+
+
+#-------------------------------------------------------------------------------
 # Search button
 #-------------------------------------------------------------------------------
 
 if search_btn:
+    _remove_visualization()
+
     st.title('Search workshops')
+
+    st.write('Three workshops best matching your query string:')
 
     results = find_best_result(query)
     st.table(results)
@@ -223,8 +250,6 @@ between the query and the workshops:
 * **The tag similarity index** picks apart the user query string and checks its similarity to the workshop tags
 
 The two indexes and then combined into an **aggregate similarity index** based predefined weights.
-
-Three best matching workshops:
 ''')
 
 
@@ -233,6 +258,8 @@ Three best matching workshops:
 #-------------------------------------------------------------------------------
 
 if recommend_btn:
+    _remove_visualization()
+
     st.title('Get recommendations')
 
     st.subheader('Top Datathon participants who match your info & preferences:')
@@ -258,7 +285,33 @@ teammates are:
 
     st.write(workshop_recommendations(user_inputs))
 
-    st.info('''Loren ipsum''')
+    st.info('''Workshop recommendation:
+
+- Step 1: get the data of users who have attended the bootcamp, clean workshop data
+
+- Step 2: 2 main Machine learning models
+
+    - features: user info (age_bin, classification, ds experience, technologies, etc.)
+
+    - tragets:
+        - (1) Whether a user will attend a bigginer or intermediate or advance workshop? : Target = difficulty
+
+        - (2) Whether a user will attend a DS/ML/DL workshop? : Target = track
+
+    - For target 1 (i.e. difficulty) multiple RF models are built as the target is ordnial classes (difficulty 0 or 1 or 2)
+
+    - For target 2 (i.e. track) one RF model is built (track DS or DL or ML etc.)
+
+- Step 3: Ranking
+
+    - Based on user's predicted difficulty workshops list will be ranked
+
+    - Based on user's predicted track probabilities workshops will be given another rank
+
+- Step 4: Final Ranking
+
+    - Based on both of these ranking, final workshop lists will be recommended. The difficulty of a workshop is given higher weightage.
+''')
 
 
 #-------------------------------------------------------------------------------
@@ -266,6 +319,8 @@ teammates are:
 #-------------------------------------------------------------------------------
 
 if discord_btn:
+    _remove_visualization()
+
     st.title('Match with Discord users')
 
     results = get_similar(user_desc)
