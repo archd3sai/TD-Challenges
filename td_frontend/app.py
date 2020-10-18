@@ -209,18 +209,18 @@ if search_btn:
 if recommend_btn:
     st.title('Get recommendations')
 
-    st.write('''Each participant of the hackthon is matched to the user in three categories:
+    st.write('''You were matched with other participants based on three categories:
 
-* personal backgrounds
+* personal background
 * level of experience
 * skills & industries
 
-For each category, each participant is compared to the user based on their cosine similarity.
+For each category, your preferences were compared with each participant's profile using cosine similarity.
 
-The user can specify for each category if he wants to find teammate who are similar or disimilar
-to him, and how this category is important to him.
+You were able to specify for each category whether you wanted to find teammates who were similar or dissimilar
+to you, and how important said category was to you.
 
-Each participant is given a total score (0 - 1) based on the user's preference. The top recommended
+Each participant was given a total score (0 - 1) based on how well they fit your preferences. Your top recommended
 teammates are:
 ''')
     st.write(get_similarity_by_category(user_inputs, user_prefs))
@@ -236,14 +236,14 @@ if discord_btn:
 
     close_matches = results[results.similarity_score > 0.9]
 
-    st.write('''Your self-description has been matched with all messages posted in TAMUDatathon's
-`#introductions` channel. There are **{}** people who has `similarity_score > 0.9` with you!
+    st.write('''Your self-description has been compared with all messages posted in the official TAMU Datathon discord
+`#introductions` channel. There are **{}** people who have a `similarity_score > 0.9` with you!
 
-The person who matches the best with you is **{}** (`@{}`). Here is his/her message:
+The person who matches the best with you is **{}** (`@{}`). Here is their introduction:
 
 > {}
 
-The other close matches are:'''.format(
+Your other close matches are:'''.format(
         len(close_matches),
         close_matches.loc[0]['name'],
         close_matches.loc[0]['username'],
