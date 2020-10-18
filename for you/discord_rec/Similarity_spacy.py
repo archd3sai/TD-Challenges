@@ -25,11 +25,11 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # reading the attributes file
 # check into the "attributes.txt" file for the proper format
 # each attribute has to be listed in a new line.
-attributes = list(line.strip() for line in open('attributes.txt'))
+attributes = list(line.strip() for line in open('disc_attributes.txt'))
 attributes = " ".join(attributes)
 
 
-reviews_df = pd.read_csv("beeradvocate.csv", encoding='utf8', errors='ignore')
+reviews_df = pd.read_csv("discord_applicants.csv", engine='python')
 
 # checking for nulls if present any
 print("Number of rows with null values:")
@@ -43,7 +43,7 @@ for index, row in reviews_df.iterrows():
 
 
 # writing to an output file
-reviews_df.to_excel("Similarity_output.xlsx", index=False)
+reviews_df.to_csv("Similarity_output.csv", index=False)
 
 
 
