@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from similar_users import get_similarity_by_category
-
+from discord_sim import get_similar
 
 applicants = pd.read_csv('data/applicants.csv')
 
@@ -227,6 +227,30 @@ teammates are:
 
 if discord_btn:
     st.title('Match with Discord users')
+
+    results = get_similar(user_desc)
+    results = pd.DataFrame(results, columns=['name', 'username', 'message', 'similarity_score'])
+
+    # Convert byte literals to strings
+    results['message'] = pd.Series([ msg.decode('utf-8') for msg in results.message ], index=results.index)
+
+    close_matches = results[results.similarity_score > 0.9]
+
+    st.write('''Your self-description has been matched with all messages posted in TAMUDatathon's
+`#introductions` channel. There are **{}** people who has `similarity_score > 0.9` with you!
+
+The person who matches the best with you is **{}** (`@{}`). Here is his/her message:
+
+> {}
+
+The other close matches are:'''.format(
+        len(close_matches),
+        close_matches.loc[0]['name'],
+        close_matches.loc[0]['username'],
+        close_matches.loc[0]['message']
+    ))
+
+    st.table(close_matches.iloc[1:])
 
 if visual_btn:
     st.title('Visualize where you fit')
