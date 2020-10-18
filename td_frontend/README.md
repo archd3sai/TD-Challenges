@@ -6,7 +6,7 @@ Install dependencies:
 conda env create -n streamlit -f environment.yml
 ```
 
-Run Strealit:
+Run Streamlit:
 
 ```
 conda activate streamlit
