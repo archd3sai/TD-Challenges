@@ -9,7 +9,7 @@ Dillon built the workshop search engine and data visualizations. The data visual
 
 Michelle built the discord user matching feature to provide a more personalized website experience. As a an MIS major interested in a more CS-related career, she understood that while user stats were important, there was very little additional data on applicants, which created a one-dimensional feel to the website. As a result, she scraped the discord introductions channel for more user-generated content and used a word-vectorized approach to match user inputted text with discord users.
 
-Larry built the front-end for the app and synethesized our work together into a Streamlit app. He learnt how to use streamlit, a great tool for fast prototyping data science products.
+Larry built the front-end for the app and synethesized our work together into a Streamlit app. He learnt how to use streamlit, a great tool for fast prototyping data science products. Challenges he faced included learning to use the new tool and synthesizing all of our code to provide a smooth and integrated user experience.
 
 ## How to use
 
