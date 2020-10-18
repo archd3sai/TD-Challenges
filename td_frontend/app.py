@@ -110,7 +110,11 @@ _relevant_industries = sorted([
 # Generate input widgets
 #-------------------------------------------------------------------------------
 
-st.sidebar.header('Quick Search Tool')
+st.sidebar.header('Visualization Tool')
+
+visual_btn = st.sidebar.button('By the Numbers')
+
+st.sidebar.header('Search Tool')
 
 query = st.sidebar.text_input('Your query string')
 
@@ -208,25 +212,44 @@ user_prefs = {
 
 
 #-------------------------------------------------------------------------------
-# TAMU Datathon by the numbers
+# Default - about page
 #-------------------------------------------------------------------------------
 
-visual_widgets = [
-    st.title('TAMU Datathon by the Numbers'),
-    st.header('Most applicants are between the ages of 18 and 20'),
-    st.pyplot(plot_ages()),
-    st.header('Undergrads made up the overwhelming majority of applicants'),
-    st.pyplot(plot_education()),
-    st.header('Python is by far the most widely known skill'),
-    st.pyplot(plot_skills()),
-    st.header('The number of math and statistics majors towered over the rest of the majors'),
-    st.pyplot(plot_majors()),
+about_widgets = [
+    st.title('About'),
+    st.header('Created by'),
+    st.text('''* Arch Desai
+* Dillon Jaghory
+* Rui-Liang (Larry) Lyu
+* Michelle Xia
+''')
 ]
 
 
-def _remove_visualization():
-    for widget in visual_widgets:
+def _remove_about_widgets():
+    for widget in about_widgets:
         widget.empty()
+
+#-------------------------------------------------------------------------------
+# TAMU Datathon by the numbers
+#-------------------------------------------------------------------------------
+
+if visual_btn:
+    _remove_about_widgets()
+
+    st.title('TAMU Datathon by the Numbers')
+
+    st.header('Most applicants are between the ages of 18 and 20')
+    st.pyplot(plot_ages())
+
+    st.header('Undergrads made up the overwhelming majority of applicants')
+    st.pyplot(plot_education())
+
+    st.header('Python is by far the most widely known skill')
+    st.pyplot(plot_skills())
+
+    st.header('The number of math and statistics majors towered over the rest of the majors')
+    st.pyplot(plot_majors())
 
 
 #-------------------------------------------------------------------------------
@@ -234,7 +257,7 @@ def _remove_visualization():
 #-------------------------------------------------------------------------------
 
 if search_btn:
-    _remove_visualization()
+    _remove_about_widgets()
 
     st.title('Search workshops')
 
@@ -258,7 +281,7 @@ The two indexes and then combined into an **aggregate similarity index** based p
 #-------------------------------------------------------------------------------
 
 if recommend_btn:
-    _remove_visualization()
+    _remove_about_widgets()
 
     st.title('Get recommendations')
 
@@ -319,7 +342,7 @@ teammates are:
 #-------------------------------------------------------------------------------
 
 if discord_btn:
-    _remove_visualization()
+    _remove_about_widgets()
 
     st.title('Match with Discord users')
 
