@@ -13,17 +13,12 @@ Larry built the front-end for the app and synethesized our work together into a 
 
 ## How to use
 
-Install dependencies:
-
 ```
-conda env create -n streamlit -f environment.yml
-```
-
-Run Streamlit:
-
-```
+git clone https://github.com/archd3sai/TD-Challenges.git
+cd TD-Challenges/td_frontend
+conda env create -n streamlit -f environment.yaml
 conda activate streamlit
-cd td_frontend
+python -m spacy download en
 streamlit run app.py
 ```
 
